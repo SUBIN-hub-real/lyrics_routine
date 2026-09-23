@@ -1,0 +1,16 @@
+{
+  "name": "가사 일과",
+  "short_name": "가사 일과",
+  "description": "매일 아침 새로 고른 한국어 노래 넷, 운율 좋은 시 둘, 작사 팁 하나",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F2F3EE",
+  "theme_color": "#F2F3EE",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}

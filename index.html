@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="매일 아침 새로 고른 한국어 노래 넷, 운율 좋은 시 둘, 작사 팁 하나">
+<meta name="theme-color" content="#F2F3EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121513" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="가사 일과">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>가사 일과</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F2F3EE; --paper:#FBFBF8; --ink:#1D2320; --ink-2:#4E5751; --ink-3:#7F8882;
+  --rule:#D9DDD5; --dawn:#B5712A; --dawn-soft:#F4E6D3; --night:#34407A; --night-soft:#E1E4F2;
+  --focus:#34407A; --chip:#E7EAE3;
+  --serif:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",serif;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#121513; --paper:#1A1E1B; --ink:#E6E9E4; --ink-2:#B3BAB4; --ink-3:#848C86;
+    --rule:#2D332F; --dawn:#E0A262; --dawn-soft:#2E2519; --night:#9EA9E6; --night-soft:#1F2340;
+    --focus:#9EA9E6; --chip:#232824;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#121513; --paper:#1A1E1B; --ink:#E6E9E4; --ink-2:#B3BAB4; --ink-3:#848C86;
+  --rule:#2D332F; --dawn:#E0A262; --dawn-soft:#2E2519; --night:#9EA9E6; --night-soft:#1F2340;
+  --focus:#9EA9E6; --chip:#232824;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-inline:max(20px, env(safe-area-inset-left));padding-block:calc(28px + env(safe-area-inset-top)) calc(64px + env(safe-area-inset-bottom))}
+[hidden]{display:none!important}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 16px}
+.brand h1{font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.2;margin:0;letter-spacing:-.01em}
+.brand p{margin:4px 0 0;color:var(--ink-3);font-size:13px}
+.daylabel{font-family:var(--mono);font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.daylabel b{color:var(--ink);font-weight:500}
+
+.archive{margin-top:18px;padding-block:12px;border-block:1px solid var(--rule)}
+.archive .lab{font-size:11px;letter-spacing:.08em;color:var(--ink-3);margin-bottom:8px;font-weight:600}
+.strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.strip button{flex:none;font:500 12px var(--mono);font-variant-numeric:tabular-nums;color:var(--ink-2);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+.strip button:hover{border-color:var(--ink-3);color:var(--ink)}
+.strip button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+.state{margin-top:40px;background:var(--paper);border:1px dashed var(--rule);border-radius:10px;padding:28px 24px;color:var(--ink-2)}
+.state h2{font-family:var(--serif);font-size:20px;margin:0 0 6px;color:var(--ink)}
+.state p{margin:0;max-width:56ch}
+
+section{margin-top:40px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--serif);font-size:21px;margin:0;font-weight:700}
+.sec-head .meta{font-size:12px;color:var(--ink-3);letter-spacing:.04em}
+.mark{display:inline-block;width:10px;height:10px;border-radius:50%;transform:translateY(-2px)}
+.morning .mark{background:var(--dawn)}
+.night .mark{background:var(--night)}
+
+.songs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.song{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px}
+.song .row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.song .title{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.3;margin:0;text-wrap:balance}
+.genre{flex:none;font-size:11px;font-weight:500;color:var(--ink-2);background:var(--chip);border-radius:999px;padding:3px 9px;margin-top:3px;white-space:nowrap}
+.song .artist{font-size:13px;color:var(--ink-2);margin:-6px 0 0}
+.song .why{font-size:14px;color:var(--ink);margin:0}
+.task{font-size:13px;line-height:1.55;color:var(--ink-2);padding:10px 12px;border-radius:6px}
+.morning .task{background:var(--dawn-soft)}
+.night .task{background:var(--night-soft)}
+.task b{display:block;font-size:11px;letter-spacing:.08em;font-weight:600;margin-bottom:2px}
+.morning .task b{color:var(--dawn)}
+.night .task b{color:var(--night)}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.links a{font-size:13px;font-weight:500;text-decoration:none;padding:6px 12px;border-radius:999px;border:1px solid var(--rule)}
+.links a:hover{border-color:var(--ink-3)}
+.morning .links a.yt{background:var(--dawn);border-color:var(--dawn);color:var(--paper)}
+.night .links a.yt{background:var(--night);border-color:var(--night);color:var(--paper)}
+
+.poems{display:flex;flex-direction:column;gap:14px}
+.poem{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:28px 24px}
+.poem .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.poem h3{font-family:var(--serif);font-size:22px;margin:0;font-weight:700}
+.poem .by{font-size:13px;color:var(--ink-3);margin:4px 0 20px}
+.poem .body{font-family:var(--serif);font-size:17px;line-height:1.95;white-space:pre-line;max-width:38em;overflow-wrap:break-word}
+.poem .linkonly{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+.poem .links a{color:var(--ink)}
+.poem .note{margin-top:18px;padding-top:12px;border-top:1px dashed var(--rule);font-size:13px;color:var(--ink-2)}
+.poem .note b{font-weight:600;color:var(--ink)}
+
+.tip{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:22px 24px}
+.tip h3{font-family:var(--serif);font-size:20px;margin:0 0 8px;text-wrap:balance}
+.tip p{margin:0;max-width:60ch;color:var(--ink-2)}
+.tip .ex{margin-top:14px;padding:12px 14px;border-left:3px solid var(--ink);background:var(--ground);border-radius:0 6px 6px 0;font-size:14px}
+.tip .ex b{font-size:11px;letter-spacing:.08em;display:block;color:var(--ink-3);font-weight:600}
+
+.memo label{font-size:13px;color:var(--ink-3);display:block;margin-bottom:6px}
+.memo textarea{width:100%;min-height:140px;font:16px/1.8 var(--serif);color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;resize:vertical}
+.memo .saved{font-size:12px;color:var(--ink-3);margin-top:6px;min-height:1em}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--rule);font-size:12px;color:var(--ink-3);line-height:1.7}
+@media (max-width:480px){.brand h1{font-size:25px}.poem{padding:22px 18px}.poem .body{font-size:16px}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>가사 일과</h1>
+      <p>매일 아침 새로 고른 노래 넷, 시 둘, 팁 하나</p>
+    </div>
+    <div class="daylabel" id="dayLabel"></div>
+  </header>
+
+  <div class="archive" id="archiveBox" hidden>
+    <div class="lab">지난 날</div>
+    <div class="strip" id="strip" role="list"></div>
+  </div>
+
+  <div id="stateBox" class="state">
+    <h2>불러오는 중</h2>
+    <p>오늘의 목록을 가져오고 있어요.</p>
+  </div>
+
+  <div id="dayView" hidden>
+    <section class="morning">
+      <div class="sec-head"><span class="mark"></span><h2>아침의 노래</h2><span class="meta">MORNING</span></div>
+      <div class="songs" id="morningSongs"></div>
+    </section>
+
+    <section class="night">
+      <div class="sec-head"><span class="mark"></span><h2>밤의 노래</h2><span class="meta">NIGHT</span></div>
+      <div class="songs" id="nightSongs"></div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>오늘의 시</h2><span class="meta">소리 내어 읽기</span></div>
+      <div class="poems" id="poems"></div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>오늘의 작사 팁</h2></div>
+      <div class="tip" id="tip"></div>
+    </section>
+
+    <section class="memo">
+      <div class="sec-head"><h2>오늘의 네 줄</h2></div>
+      <label for="memo">팁의 연습 문제를 여기에 써 보세요. 이 기기의 브라우저에만 날짜별로 저장됩니다.</label>
+      <textarea id="memo" placeholder="첫 줄…"></textarea>
+      <div class="saved" id="saved"></div>
+    </section>
+  </div>
+
+  <footer>
+    매일 아침 6시(한국 시간)쯤 새 곡과 시를 찾아 그날의 목록을 올립니다. 오늘 이후의 목록은 보이지 않습니다.<br>
+    노래 가사와 저작권이 살아 있는 시는 전문을 싣지 않고, 전문을 볼 수 있는 곳으로 연결합니다. 저작권이 끝난 시(1920년대 이전 발표작, 고시조)만 전문을 싣습니다.
+  </footer>
+</div>
+
+<script>
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const safeUrl = u => /^https:\/\//.test(String(u||"")) ? String(u) : "";
+const q = s => encodeURIComponent(s);
+function kstToday(){
+  const d = new Date(Date.now() + 9*3600000);
+  return d.toISOString().slice(0,10);
+}
+const WD = ["일","월","화","수","목","금","토"];
+function fmt(id){
+  const d = new Date(id + "T00:00:00Z");
+  return `${id.replace(/-/g,".")} (${WD[d.getUTCDay()]})`;
+}
+function short(id){ return id.slice(5).replace("-","."); }
+
+let days = {};          // id -> data
+let current = null;
+const today = kstToday();
+
+function songCard(s){
+  const plain = `${s.artist||""} ${s.title||""}`.replace(/\s*\([^)]*\)/g,"").trim();
+  const yt = safeUrl(s.youtube) || `https://www.youtube.com/results?search_query=${q(plain)}`;
+  const ly = safeUrl(s.lyrics) || `https://search.naver.com/search.naver?query=${q(plain+" 가사")}`;
+  return `<article class="song">
+    <div class="row"><h3 class="title">${esc(s.title)}</h3>${s.genre?`<span class="genre">${esc(s.genre)}</span>`:""}</div>
+    <p class="artist">${esc(s.artist)}</p>
+    ${s.why?`<p class="why">${esc(s.why)}</p>`:""}
+    ${s.task?`<div class="task"><b>들으며 할 일</b>${esc(s.task)}</div>`:""}
+    <div class="links">
+      <a class="yt" href="${esc(yt)}" target="_blank" rel="noopener">YouTube에서 듣기 ↗</a>
+      <a href="${esc(ly)}" target="_blank" rel="noopener">가사 전문 보기 ↗</a>
+    </div>
+  </article>`;
+}
+function poemCard(p){
+  const links = (p.links||[]).filter(l=>safeUrl(l.url));
+  const body = p.text
+    ? `<div class="body">${esc(p.text)}</div>`
+    : `<p class="linkonly">저작권이 있는 작품이라 전문은 아래에서 읽어 주세요.</p>`;
+  const linkHtml = links.length ? `<div class="links" style="margin-top:${p.text?'16px':'0'}">${links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label||"전문 보기")} ↗</a>`).join("")}</div>` : "";
+  return `<article class="poem">
+    <div class="row"><h3>${esc(p.title)}</h3>${p.era?`<span class="genre">${p.era==="modern"?"현대시":"고전"}</span>`:""}</div>
+    <p class="by">${esc(p.poet)}${p.source?` · ${esc(p.source)}`:""}</p>
+    ${body}${linkHtml}
+    ${p.note?`<div class="note"><b>운율 포인트</b> — ${esc(p.note)}</div>`:""}
+  </article>`;
+}
+function showState(title, msg){
+  const box = document.getElementById("stateBox");
+  box.innerHTML = `<h2>${esc(title)}</h2><p>${esc(msg)}</p>`;
+  box.hidden = false;
+  document.getElementById("dayView").hidden = true;
+}
+function renderStrip(ids){
+  const box = document.getElementById("archiveBox");
+  box.hidden = ids.length < 1;
+  document.getElementById("strip").innerHTML = ids.map(id =>
+    `<button type="button" role="listitem" data-id="${id}" aria-current="${id===current}">${id===today?"오늘":short(id)}</button>`).join("");
+}
+function render(){
+  const ids = Object.keys(days).filter(id => id <= today).sort().reverse();
+  if (!current || !days[current] || current > today) current = ids[0] || null;
+  renderStrip(ids);
+  document.getElementById("dayLabel").innerHTML = current ? `<b>${fmt(current)}</b>` : fmt(today);
+  if (!current){
+    showState("오늘의 목록을 준비하고 있어요","매일 아침 6시에 새 목록이 올라옵니다. 조금 뒤에 다시 열어 주세요.");
+    return;
+  }
+  const d = days[current];
+  document.getElementById("stateBox").hidden = true;
+  document.getElementById("dayView").hidden = false;
+  document.getElementById("morningSongs").innerHTML = (d.morning||[]).map(songCard).join("");
+  document.getElementById("nightSongs").innerHTML = (d.night||[]).map(songCard).join("");
+  document.getElementById("poems").innerHTML = (d.poems||[]).map(poemCard).join("");
+  const t = d.tip || {};
+  document.getElementById("tip").innerHTML = `<h3>${esc(t.h)}</h3><p>${esc(t.p)}</p>${t.x?`<div class="ex"><b>오늘의 연습</b>${esc(t.x)}</div>`:""}`;
+  const memo = document.getElementById("memo");
+  if (memo.dataset.day !== current){
+    let v=""; try{ v = localStorage.getItem("gasa-memo-"+current) || ""; }catch(e){}
+    memo.value = v; memo.dataset.day = current;
+    document.getElementById("saved").textContent = "";
+  }
+}
+document.getElementById("strip").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-id]"); if(!b) return;
+  current = b.dataset.id;
+  try{ history.replaceState(null,"","#d"+current); }catch(err){}
+  render();
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+let timer;
+document.getElementById("memo").addEventListener("input", e=>{
+  clearTimeout(timer);
+  const val = e.target.value, d = e.target.dataset.day;
+  timer = setTimeout(()=>{
+    try{ localStorage.setItem("gasa-memo-"+d, val); document.getElementById("saved").textContent="저장됨"; }
+    catch(err){ document.getElementById("saved").textContent="이 브라우저에서는 저장할 수 없어요. 따로 복사해 두세요."; }
+  },500);
+});
+const h = location.hash.match(/^#d(\d{4}-\d{2}-\d{2})$/);
+if (h) current = h[1];
+
+fetch("data/days.json?t=" + Date.now(), {cache:"no-store"})
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    (data.days||[]).forEach(d=>{ if(d && /^\d{4}-\d{2}-\d{2}$/.test(d.date)) days[d.date] = d; });
+    render();
+  })
+  .catch(() => showState("목록을 불러오지 못했어요","인터넷 연결을 확인하고 새로 고쳐 주세요."));
+</script>
+</body>
+</html>
